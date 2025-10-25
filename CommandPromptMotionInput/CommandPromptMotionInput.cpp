@@ -118,6 +118,14 @@ protected:
 		_motions1[3] = MotionInput<1>("INPUT_623");
 		_motions1[3].validCommands[0] = CommandSequence({ FK_Input_Buttons.FORWARD, FK_Input_Buttons.DOWN, FK_Input_Buttons.DOWN_FORWARD }, { -8,-12,-7 });
 
+
+		_motions5[0] = MotionInput<5>("INPUT_632146");
+		_motions5[0].validCommands[0] = CommandSequence({ FK_Input_Buttons.FORWARD, FK_Input_Buttons.DOWN_FORWARD, FK_Input_Buttons.DOWN, FK_Input_Buttons.DOWN_BACK, FK_Input_Buttons.BACK, FK_Input_Buttons.FORWARD }, { -6,12,12,12,12,12 });
+		_motions5[0].validCommands[1] = CommandSequence({ FK_Input_Buttons.FORWARD, FK_Input_Buttons.DOWN, FK_Input_Buttons.DOWN_BACK, FK_Input_Buttons.BACK, FK_Input_Buttons.FORWARD }, { -4,8,8,8,8 });
+		_motions5[0].validCommands[2] = CommandSequence({ FK_Input_Buttons.FORWARD, FK_Input_Buttons.DOWN_FORWARD, FK_Input_Buttons.DOWN, FK_Input_Buttons.BACK, FK_Input_Buttons.FORWARD }, { -4,8,8,8,8 });
+		_motions5[0].validCommands[3] = CommandSequence({ FK_Input_Buttons.FORWARD, FK_Input_Buttons.DOWN, FK_Input_Buttons.BACK, FK_Input_Buttons.FORWARD }, { -6,12,12,12 });
+		_motions5[0].validCommands[4] = CommandSequence({ FK_Input_Buttons.FORWARD, FK_Input_Buttons.DOWN_FORWARD, FK_Input_Buttons.DOWN_BACK, FK_Input_Buttons.BACK, FK_Input_Buttons.FORWARD }, { -4,12,8,8,8 });
+
 		for (const auto& element : buttons) {
 			const auto& key = element.first;
 			const auto& value = element.second;
@@ -145,19 +153,26 @@ protected:
 		for (std::size_t i = 0; i < 4; ++i) {
 			_motions1[i].checkValidCommands(buttonMap, &_handler);
 		}
+		for (std::size_t i = 0; i < 1; ++i) {
+			_motions5[i].checkValidCommands(buttonMap, &_handler);
+		}
 		//_motions1[1].checkValidCommands(buttonMap, &_handler);
 
 
-		if (buttonMap["INPUT_623"]) {
-			if (buttonMap["INPUT_PRESS_MP"]) {
+		if (buttonMap["INPUT_632146"]) {
+			if (buttonMap["INPUT_PRESS_HP"]) {
 				m_fPlayerX += 2.0f;
 			}
 		}
 
+		if (m_keys[0x52].bHeld) {
+			m_fPlayerX = 0.0f;
+		}
 
-		Fill(0, 0, m_nScreenWidth, m_nScreenHeight, L' ', 0);
 
-		Fill((int)m_fPlayerX, (int)m_fPlayerY, (int)m_fPlayerX + 5, (int)m_fPlayerY + 5, L'#', 1);
+		Fill(0, 0, m_nScreenWidth, m_nScreenHeight, PIXEL_SOLID,  inputs % 16);
+
+		Fill((int)m_fPlayerX, (int)m_fPlayerY, (int)m_fPlayerX + 5, (int)m_fPlayerY + 5, PIXEL_SOLID, 1);
 
 		_handler.update(tick);
 
@@ -169,6 +184,7 @@ private:
 	float m_fPlayerY;
 	InputHandler _handler = InputHandler();
 	MotionInput<1> _motions1[MOTIONS_1_SIZE];
+	MotionInput<5> _motions5[MOTIONS_1_SIZE];
 	std::unordered_map<std::string, bool> buttonMap;
 	std::unordered_map<std::string, Button> buttons;
 	int inputs;
