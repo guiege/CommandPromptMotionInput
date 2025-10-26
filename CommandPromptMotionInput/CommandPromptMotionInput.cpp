@@ -207,13 +207,7 @@ protected:
 		}
 
 
-
-		if (m_keys[0x52].bHeld) {
-			m_fPlayerX = 0.0f;
-		}
-
-
-		Fill(0, 0, m_nScreenWidth, m_nScreenHeight, PIXEL_SOLID, inputs % 16);
+		Fill(0, 0, m_nScreenWidth, m_nScreenHeight, PIXEL_SOLID, 0);
 		std::string var = ". . . .";
 		Fill((int)m_fPlayerX, (int)m_fPlayerY, (int)m_fPlayerX + 5, (int)m_fPlayerY + 5, PIXEL_SOLID, 1);
 		/*for (std::size_t i = input_Count; i > -1; i--) {
@@ -223,6 +217,11 @@ protected:
 		bool matching = helperFunction();
 		
 		std::string passwordDisplay = "";
+
+		if (m_keys[0x52].bHeld) {
+			passwordDisplay.clear();
+			m_fPlayerX = 0.0f;
+		}
 		passwordDisplay.reserve(input_Count);
 		for (std::size_t i = 0; i < input_Count; i++) {
 			if (matching) {
@@ -256,8 +255,8 @@ private:
 	int input_Count;
 	std::vector<std::string> commandList = {};
 	std::vector<std::string> buttonList = {};
-	std::vector<std::string> targetcommandList = {"INPUT_236", "INPUT_623","INPUT_236", "INPUT_63214"};
-	std::vector<std::string> targetbuttonList = {"INPUT_PRESS_LP","INPUT_PRESS_HP","INPUT_PRESS_LP", "INPUT_PRESS_LP" };
+	std::vector<std::string> targetcommandList = {"INPUT_236", "INPUT_623", "INPUT_63214"};
+	std::vector<std::string> targetbuttonList = {"INPUT_PRESS_LP","INPUT_PRESS_LP","INPUT_PRESS_LP" };
 	InputHandler _handler = InputHandler();
 	MotionInput<1> _motions1[MOTIONS_1_SIZE];
 	MotionInput<5> _motions5[MOTIONS_1_SIZE];
